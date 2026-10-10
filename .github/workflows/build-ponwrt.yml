@@ -22,19 +22,19 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   REPO_BRANCH: ${{ github.event.inputs.branch || 'master' }}
   SOC: ${{ github.event.inputs.soc || 'an7581' }}
-  PROFILE: ${{ github.event.inputs.profile || 'fiberhome_hg5585f-ct' }}
+  PROFILE: ${{ github.event.inputs.profile || 'fiberhome_hg5382a' }}
   BUILD_SCOPE: ${{ github.event.inputs.scope || 'firmware' }}
   IGNORE_CACHE: ${{ github.event.inputs.ignore_cache || 'false' }}
   # ---- NPU 固件（RISC-V 裸机固件，由工作流按机型现编或沿用仓库自带）----
   NPU_FW: ${{ github.event.inputs.npu_fw || 'stock' }}
-  NPU_WIFI: ${{ github.event.inputs.npu_wifi || 'auto' }}
+  NPU_WIFI: ${{ github.event.inputs.npu_wifi || 'NOWIFI' }}
   NPU_CLANKER: ${{ github.event.inputs.npu_clanker || '0' }}
   NPU_FW_PREFIX: ${{ github.event.inputs.npu_fw_prefix || '' }}
   NPU_WLAN_MEM: ${{ github.event.inputs.npu_wlan_mem || 'true' }}
   NPU_SRC_REF: ${{ github.event.inputs.npu_src_ref || 'main' }}
   # NPU 固件改成「可选插件包」：包名 airoha-<soc>-<wifi>-npu-firmware
   #   CONFIG_PACKAGE_airoha-en7581-mt7916-npu-firmware=y
-  NPU_DEFAULT_WIFI: ${{ github.event.inputs.npu_default_wifi || 'MT7916' }}
+  NPU_DEFAULT_WIFI: ${{ github.event.inputs.npu_default_wifi || 'NOWIFI' }}
   NPU_FILES_FALLBACK: ${{ github.event.inputs.npu_fw_files_fallback || 'false' }}
   FW_BUILD_TIME: ''                 # 留空 = 自动取构建时时间（Asia/Shanghai）
   FW_DESC_SUFFIX: ''               # 留空 = "· qwe · <构建时间>"；填了则完全自定义
@@ -70,7 +70,7 @@ on:
       profile:
         description: '机型 profile (all=全机型编译)'
         required: true
-        default: 'fiberhome_hg5585f-ct'
+        default: 'fiberhome_hg5382a'
         type: choice
         options:
           - fiberhome_hg5585f-cu
@@ -114,7 +114,7 @@ on:
       npu_wifi:
         description: 'NPU 固件变体: WiFi 芯片 (auto=按机型推断；MT7916/MT7996=kite，其余=eagle)'
         required: true
-        default: 'auto'
+        default: 'NOWIFI'
         type: choice
         options:
           - auto
@@ -128,7 +128,7 @@ on:
       npu_default_wifi:
         description: 'npu_wifi=all 时默认勾选哪个变体（其余变体也会编成可选包，但不自动勾选）'
         required: false
-        default: 'MT7916'
+        default: 'NOWIFI'
         type: choice
         options:
           - MT7916
